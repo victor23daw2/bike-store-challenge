@@ -1,0 +1,2 @@
+class OptionCategory < ApplicationRecord
+end
