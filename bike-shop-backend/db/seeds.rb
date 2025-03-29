@@ -24,8 +24,6 @@ wheels_mountain = Option.create!(name: "Mountain wheels", stock: 0, extra_price:
 saddle_racing = Option.create!(name: "Racing saddle", stock: 9, extra_price: 35.00, option_category: saddle)
 saddle_comfort = Option.create!(name: "Comfort saddle", stock: 6, extra_price: 20.00, option_category: saddle)
 
-Product.delete_all
-
 bike_1 = Product.create!(
   name: "City Bike",
   category: "bicycle",
@@ -58,16 +56,16 @@ bike_4 = Product.create!(
   description: "Designed for forest paths and nature exploration, comfortable and durable."
 )
 
-
-ProductOption.create!(product: bike_1, option: frame_diamond)
-ProductOption.create!(product: bike_1, option: brakes_rim)
-ProductOption.create!(product: bike_1, option: wheels_road)
-ProductOption.create!(product: bike_1, option: saddle_comfort)
-
-ProductOption.create!(product: bike_2, option: frame_full)
-ProductOption.create!(product: bike_2, option: brakes_disc)
-ProductOption.create!(product: bike_2, option: wheels_mountain)
-ProductOption.create!(product: bike_2, option: saddle_racing)
+[bike_1, bike_2, bike_3, bike_4].each do |bike|
+  ProductOption.create!(product: bike, option: frame_diamond)
+  ProductOption.create!(product: bike, option: frame_full)
+  ProductOption.create!(product: bike, option: brakes_rim)
+  ProductOption.create!(product: bike, option: brakes_disc)
+  ProductOption.create!(product: bike, option: wheels_road)
+  ProductOption.create!(product: bike, option: wheels_mountain)
+  ProductOption.create!(product: bike, option: saddle_comfort)
+  ProductOption.create!(product: bike, option: saddle_racing)
+end
 
 InvalidCombination.create!(option_1: wheels_mountain, option_2: brakes_rim, reason: "not safe together")
 
