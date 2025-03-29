@@ -30,28 +30,32 @@ bike_1 = Product.create!(
   name: "City Bike",
   category: "bicycle",
   price: 450.00,
-  image_url: "https://img.freepik.com/foto-gratis/cerrar-piernas-zapatillas-deporte-manos-volante-hombre-barbudo-estilo-hipster-sudadera-capucha-roja-pantalon-beige-montando-solo-mochila-bicicleta-mochilero-viajero-estilo-vida-activo-saludable_285396-5489.jpg"
+  image_url: "https://img.freepik.com/foto-gratis/cerrar-piernas-zapatillas-deporte-manos-volante-hombre-barbudo-estilo-hipster-sudadera-capucha-roja-pantalon-beige-montando-solo-mochila-bicicleta-mochilero-viajero-estilo-vida-activo-saludable_285396-5489.jpg",
+  description: "A comfortable and practical bike ideal for commuting and short city rides."
 )
 
 bike_2 = Product.create!(
   name: "Trail Bike",
   category: "bicycle",
   price: 600.00,
-  image_url: "https://img.freepik.com/foto-gratis/guapo-joven-africano-temprano-manana-bicicleta_171337-12969.jpg"
+  image_url: "https://img.freepik.com/foto-gratis/guapo-joven-africano-temprano-manana-bicicleta_171337-12969.jpg",
+  description: "Perfect for off-road trails and mountain adventures, with strong suspension."
 )
 
 bike_3 = Product.create!(
   name: "Beach Cruiser",
   category: "bicycle",
   price: 520.00,
-  image_url: "https://img.freepik.com/foto-gratis/bicicleta-vintage-solo-pie-sobre-arena_1303-24282.jpg"
+  image_url: "https://img.freepik.com/foto-gratis/bicicleta-vintage-solo-pie-sobre-arena_1303-24282.jpg",
+  description: "Smooth and stylish for relaxing rides along the beach or boardwalk."
 )
 
 bike_4 = Product.create!(
   name: "Forest Explorer",
   category: "bicycle",
   price: 690.00,
-  image_url: "https://img.freepik.com/foto-gratis/bicicleta-blanca-suelo-bosque_23-2148232046.jpg"
+  image_url: "https://img.freepik.com/foto-gratis/bicicleta-blanca-suelo-bosque_23-2148232046.jpg",
+  description: "Designed for forest paths and nature exploration, comfortable and durable."
 )
 
 

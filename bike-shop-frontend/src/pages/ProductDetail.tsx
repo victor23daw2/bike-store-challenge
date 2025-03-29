@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import { Product } from '../types/Product';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -14,7 +17,19 @@ const ProductDetail = () => {
       .catch(console.error);
   }, [id]);
 
-  if (!product) return <p>Loading...</p>;
+  if (!product) {
+    return (
+      <div className="card shadow-sm">
+        <Skeleton height={300} />
+        <div className="card-body">
+          <h2><Skeleton width={200} /></h2>
+          <h5><Skeleton width={100} /></h5>
+          <p><Skeleton width={120} /></p>
+        </div>
+      </div>
+    );
+  }
+  
 
   return (
     <>
@@ -33,6 +48,7 @@ const ProductDetail = () => {
         <h2 className="card-title">{product.name}</h2>
         <h5 className="text-muted">{product.category}</h5>
         <p className="fs-5">Price: €{product.price}</p>
+        <p>{product.description}</p>
       </div>
     </div>
     </>
