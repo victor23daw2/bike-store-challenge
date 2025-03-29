@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Product } from '../types/Product';
 import { Option } from '../types/Option';
+import { useCart } from '../context/CartContext';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
@@ -14,6 +15,8 @@ const ProductDetail = () => {
   const [product, setProduct] = useState<Product | null>(null);
 
   const [selectedOptions, setSelectedOptions] = useState<Record<string, number>>({});
+
+  const { addToCart } = useCart();
 
 
   useEffect(() => {
@@ -90,14 +93,36 @@ const ProductDetail = () => {
           <button
             className="btn btn-success mt-3"
             onClick={() => {
-              if (Object.keys(selectedOptions).length < Object.keys(groupedOptions).length) {
-                alert("Please select all options");
+              const totalCategories = Object.keys(groupedOptions).length;
+              const selectedCount = Object.keys(selectedOptions).length;
+
+              if (selectedCount < totalCategories) {
+                alert('Please select an option for each category.');
                 return;
-              }              
+              }
+
+              const selected = Object.entries(selectedOptions).map(([category, optionId]) => {
+                const option = product.options?.find((opt) => opt.id === optionId);
+                return {
+                  category,
+                  name: option?.name || '-',
+                  extra_price: Number(option?.extra_price) || 0
+                };
+              });
+
+              addToCart({
+                productId: product.id,
+                productName: product.name,
+                price: product.price,
+                options: selected
+              });
+
+              alert(`${product.name} added to cart`);
             }}
           >
             Add to Cart
           </button>
+
 
         </div>
       </div>

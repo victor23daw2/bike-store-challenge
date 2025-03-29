@@ -1,7 +1,8 @@
 export type Option = {
     id: number;
     name: string;
-    stock: number;
     category: string;
+    stock: number;
+    extra_price: string;
   };
   

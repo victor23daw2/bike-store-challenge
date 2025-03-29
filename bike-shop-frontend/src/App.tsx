@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
 import ProductList from './pages/ProductList';
 import ProductDetail from './pages/ProductDetail';
+import Header from './components/Header';
+import CartPage from './pages/CartPage';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Header />
@@ -11,10 +12,11 @@ function App() {
         <Routes>
           <Route path="/" element={<ProductList />} />
           <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </div>
     </Router>
   );
-}
+};
 
 export default App;
