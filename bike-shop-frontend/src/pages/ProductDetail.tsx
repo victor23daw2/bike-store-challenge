@@ -25,6 +25,15 @@ const ProductDetail = () => {
       .catch(console.error);
   }, [id]);
 
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/products/${id}`)
+      .then(res => {
+        console.log('Product loaded:', res.data);
+        setProduct(res.data);
+      })
+      .catch(console.error);
+  }, [id]);
+  
 
   if (!product) {
     return (
@@ -42,13 +51,17 @@ const ProductDetail = () => {
   const groupedOptions: { [category: string]: Option[] } = {};
 
   product.options?.forEach((option) => {
-    if (!groupedOptions[option.category]) {
-      groupedOptions[option.category] = [];
+    const category = option.option_category?.name || 'Uncategorized';
+  
+    if (!groupedOptions[category]) {
+      groupedOptions[category] = [];
     }
-    groupedOptions[option.category].push(option);
+    groupedOptions[category].push(option);
   });
-
-  console.log(selectedOptions);
+  
+  
+  
+  
 
   return (
     <>
@@ -82,9 +95,9 @@ const ProductDetail = () => {
                 <option value="">Select an option</option>
 
                 {options.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.name} {option.stock === 0 ? '(Out of stock)' : ''}
-                  </option>
+                  <option key={option.id} value={option.id} disabled={option.stock === 0}>
+                  {option.name} {option.stock === 0 ? '(Out of stock)' : ''}
+                </option>                            
                 ))}
               </select>
             </div>

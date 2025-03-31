@@ -7,27 +7,31 @@ module Api
       end
 
       def show
-        product = Product.find(params[:id])
-      
-        options = product.options.includes(:option_category).map do |option|
-          {
-            id: option.id,
-            name: option.name,
-            stock: option.stock,
-            category: option.option_category.name
-          }
-        end
+        product = Product.includes(options: :option_category).find(params[:id])
       
         render json: {
           id: product.id,
           name: product.name,
           category: product.category,
           price: product.price,
-          image_url: product.image_url,
           description: product.description,
-          options: options
+          image_url: product.image_url,
+          options: product.options.map do |option|
+            {
+              id: option.id,
+              name: option.name,
+              stock: option.stock,
+              extra_price: option.extra_price,
+              option_category: {
+                id: option.option_category&.id,
+                name: option.option_category&.name
+              }
+            }
+          end
         }
       end
+      
+           
       
     end
   end
