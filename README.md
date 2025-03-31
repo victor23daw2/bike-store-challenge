@@ -9,7 +9,7 @@ It's an online shop where people can customize a bike and add it to their cart. 
 ### 🚀 Tech Stack
 
 - **Backend**: Ruby on Rails (API-only)
-- **Frontend**: React + TypeScript (Vite)
+- **Frontend**: React + TypeScript (CRA)
 - **Database**: PostgreSQL
 - **State Management**: `useState` + `useContext`
 - **Ruby**: 3.2.3
@@ -33,9 +33,7 @@ The DB is designed to support more products in the future, not just bikes. (skis
 - `carts`: user shopping cart.
 - `cart_items`: each item has a product and customization (as JSON)
 
-I'm using `jsonb` in the `customization` column cause it’s more flexible and avoids creating tons of extra fields. I read some blogposts (from Percona and Medium) explaining why this is a good idea for dynamic stuff.
-
-The `invalid_combinations` table helps to control rules like “don’t mix red rims with mountain wheels”. This way, I don’t need to hardcode logic and can just update the DB. Each row links two options from the `options` table (`option_1` and `option_2` both point to options).
+The `customization` column in `cart_items` is a `jsonb` field added in case the app needs to support flexible and dynamic product configurations in the future.
 
 This way, I can change or add rules without changing code. It also makes things cleaner and easy to maintain.
 
@@ -47,9 +45,7 @@ Each option has a `stock` so unavailable parts can be hidden from the frontend.
 
 I split the code by responsibilities, using models, services, serializers, etc.
 
-It’s structured in a modular way, which makes it easier to scale and maybe use **Packwerk** later.
-
-Even tho **Sorbet** isn’t installed, I wrote code that could be typed if needed.
+While tools like **Packwerk** and **Sorbet** are not included yet, I kept their principles in mind to structure the code in a clean, modular, and type-safe way.
 
 I also tried to follow **SOLID**.
 
