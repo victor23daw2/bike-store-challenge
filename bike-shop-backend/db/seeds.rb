@@ -13,16 +13,19 @@ wheels = OptionCategory.create!(name: "wheels")
 saddle = OptionCategory.create!(name: "saddle")
 
 frame_full = Option.create!(name: "Full suspension", stock: 10, extra_price: 120.00, option_category: frame)
-frame_diamond = Option.create!(name: "Diamond", stock: 8, extra_price: 90.00, option_category: frame)
+frame_diamond = Option.create!(name: "Diamond", stock: 0, extra_price: 90.00, option_category: frame)
 
 brakes_disc = Option.create!(name: "Disc brakes", stock: 12, extra_price: 60.00, option_category: brakes)
 brakes_rim = Option.create!(name: "Rim brakes", stock: 5, extra_price: 30.00, option_category: brakes)
 
 wheels_road = Option.create!(name: "Road wheels", stock: 7, extra_price: 80.00, option_category: wheels)
-wheels_mountain = Option.create!(name: "Mountain wheels", stock: 0, extra_price: 100.00, option_category: wheels)
+wheels_mountain = Option.create!(name: "Mountain wheels", stock: 3, extra_price: 100.00, option_category: wheels)
 
 saddle_racing = Option.create!(name: "Racing saddle", stock: 9, extra_price: 35.00, option_category: saddle)
 saddle_comfort = Option.create!(name: "Comfort saddle", stock: 6, extra_price: 20.00, option_category: saddle)
+
+frame_step = Option.create!(name: "Step-through", stock: 5, extra_price: 70.00, option_category: frame)
+saddle_sport = Option.create!(name: "Sport saddle", stock: 4, extra_price: 25.00, option_category: saddle)
 
 bike_1 = Product.create!(
   name: "City Bike",
@@ -59,14 +62,18 @@ bike_4 = Product.create!(
 [bike_1, bike_2, bike_3, bike_4].each do |bike|
   ProductOption.create!(product: bike, option: frame_diamond)
   ProductOption.create!(product: bike, option: frame_full)
+  ProductOption.create!(product: bike, option: frame_step)
   ProductOption.create!(product: bike, option: brakes_rim)
   ProductOption.create!(product: bike, option: brakes_disc)
   ProductOption.create!(product: bike, option: wheels_road)
   ProductOption.create!(product: bike, option: wheels_mountain)
   ProductOption.create!(product: bike, option: saddle_comfort)
   ProductOption.create!(product: bike, option: saddle_racing)
+  ProductOption.create!(product: bike, option: saddle_sport)
 end
 
 InvalidCombination.create!(option_1: wheels_mountain, option_2: brakes_rim, reason: "not safe together")
+InvalidCombination.create!(option_1: frame_step, option_2: saddle_racing, reason: "not ergonomic together")
+InvalidCombination.create!(option_1: brakes_disc, option_2: saddle_sport, reason: "incompatible configuration")
 
 puts "Seed finished"

@@ -25,7 +25,7 @@ const ProductList = () => {
             )}
             <div className="card-body">
               <h5 className="card-title">{product.name}</h5>
-              <h6 className="card-subtitle mb-2 text-muted">{product.category}</h6>
+              <h6 className="card-subtitle mb-2 text-muted text-capitalize">{product.category}</h6>
               <p className="card-text">Price: €{product.price}</p>
               <Link to={`/products/${product.id}`} className="btn btn-primary">View Details</Link>
             </div>

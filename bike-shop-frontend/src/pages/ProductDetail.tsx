@@ -18,6 +18,13 @@ const ProductDetail = () => {
 
   const { addToCart } = useCart();
 
+  const [invalidCombinations, setInvalidCombinations] = useState<{ option_1_id: number, option_2_id: number }[]>([]);
+
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/invalid_combinations`)
+      .then(res => setInvalidCombinations(res.data))
+      .catch(console.error);
+  }, []);
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/v1/products/${id}`)
@@ -33,7 +40,7 @@ const ProductDetail = () => {
       })
       .catch(console.error);
   }, [id]);
-  
+
 
   if (!product) {
     return (
@@ -52,16 +59,12 @@ const ProductDetail = () => {
 
   product.options?.forEach((option) => {
     const category = option.option_category?.name || 'Uncategorized';
-  
+
     if (!groupedOptions[category]) {
       groupedOptions[category] = [];
     }
     groupedOptions[category].push(option);
   });
-  
-  
-  
-  
 
   return (
     <>
@@ -96,8 +99,8 @@ const ProductDetail = () => {
 
                 {options.map((option) => (
                   <option key={option.id} value={option.id} disabled={option.stock === 0}>
-                  {option.name} {option.stock === 0 ? '(Out of stock)' : ''}
-                </option>                            
+                    {option.name} {option.stock === 0 ? '(Out of stock)' : ''}
+                  </option>
                 ))}
               </select>
             </div>
@@ -122,6 +125,18 @@ const ProductDetail = () => {
                   extra_price: Number(option?.extra_price) || 0
                 };
               });
+
+              const selectedOptionIds = Object.values(selectedOptions);
+
+              const isInvalid = invalidCombinations.some(({ option_1_id, option_2_id }) => {
+                return selectedOptionIds.includes(option_1_id) && selectedOptionIds.includes(option_2_id);
+              });
+
+              if (isInvalid) {
+                alert("This combination of options is not allowed.");
+                return;
+              }
+
 
               addToCart({
                 productId: product.id,

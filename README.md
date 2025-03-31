@@ -52,15 +52,40 @@ It’s structured in a modular way, which makes it easier to scale and maybe use
 Even tho **Sorbet** isn’t installed, I wrote code that could be typed if needed.
 
 I also tried to follow **SOLID**.
+
 ---
 
-### 🚫 Invalid Option Combos
+### ✅ Things you can try
 
-Some parts don’t make sense together (like `Mountain wheels` and `Red rims`). I use an `invalid_combinations` table to store those pairs.
+- Customize a bike (select a frame, brakes, wheels, and saddle).
+- Try to add a combination that is invalid → you’ll get an error.
+- Add items to the cart and see the total update.
+- Remove items from the cart.
+- Use the admin panel to:
+  - Create new products and options
+  - Associate options with products
+- Options out of stock are disabled in the dropdown.
 
-Each row links two options from the `options` table (`option_1` and `option_2` both point to options).
+Everything works without login or accounts to keep the flow quick and simple.
 
-This way, I can change or add rules without changing code. It also makes things cleaner and easy to maintain.
+---
+
+### 🚫 Invalid Option Combinations
+
+Some parts don’t make sense together (like `Mountain wheels` and `Rim brakes`).  
+To handle this, I use an `invalid_combinations` table to store those pairs.
+
+Each row links two records from the `options` table (`option_1` and `option_2` both reference options).
+
+This makes it easy to add or modify rules without changing any code, keeping the system clean and maintainable.
+
+You can test the following invalid combinations (preloaded in `seeds.rb`):
+
+- ❌ "Mountain wheels" + "Rim brakes" → not safe
+- ❌ "Step-through frame" + "Racing saddle" → not ergonomic
+- ❌ "Disc brakes" + "Sport saddle" → incompatible configuration
+
+This validation happens on the frontend before adding to the cart. No request is sent if the combination is invalid.
 
 ---
 

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
       get 'option_categories', to: 'option_categories#index'
 
+      get 'invalid_combinations', to: 'invalid_combinations#index'
+
       namespace :admin do
         resources :products, only: [:index, :create, :destroy] do
           get 'options', on: :member
