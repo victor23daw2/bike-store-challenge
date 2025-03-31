@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 type CartContextType = {
     cart: CartItem[];
     addToCart: (item: CartItem) => void;
-    removeFromCart: (productId: number) => void;
+    removeFromCart: (id: number) => void;
   };
   
 
@@ -18,9 +18,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     return saved ? JSON.parse(saved) : [];
     
   });
-  const removeFromCart = (productId: number) => {
-    setCart(cart.filter(item => item.productId !== productId));
-  };
+  const removeFromCart = (id: number) => {
+    setCart((prev) => prev.filter(item => item.id !== id));
+  };  
   
   
   useEffect(() => {

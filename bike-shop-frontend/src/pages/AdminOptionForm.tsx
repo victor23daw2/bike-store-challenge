@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { OptionCategory } from '../types/Option';
+import Swal from 'sweetalert2';
 
 const AdminOptionForm = ({ onCreated }: { onCreated: () => void }) => {
     const [name, setName] = useState('');
@@ -19,7 +20,11 @@ const AdminOptionForm = ({ onCreated }: { onCreated: () => void }) => {
         e.preventDefault();
 
         if (!categoryId) {
-            alert('Please select a category');
+            Swal.fire({
+                icon: 'error',
+                title: 'Please select a category',
+                confirmButtonText: 'Accept'
+            });
             return;
         }
 
@@ -30,7 +35,12 @@ const AdminOptionForm = ({ onCreated }: { onCreated: () => void }) => {
             option_category_id: categoryId,
         })
             .then(() => {
-                alert('Option created!');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Option created!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 setName('');
                 setStock('0');
                 setExtraPrice('0');
@@ -80,7 +90,7 @@ const AdminOptionForm = ({ onCreated }: { onCreated: () => void }) => {
                         value={categoryId ?? ''}
                         onChange={e => setCategoryId(Number(e.target.value))}
                     >
-                        <option value="">Select a category</option>
+                        <option value="-1">Select a category</option>
                         {categories.map(cat => (
                             <option key={cat.id} value={cat.id}>
                                 {cat.name}

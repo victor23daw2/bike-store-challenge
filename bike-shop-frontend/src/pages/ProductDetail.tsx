@@ -1,24 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Product } from '../types/Product';
 import { Option } from '../types/Option';
 import { useCart } from '../context/CartContext';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-
-
+import Swal from 'sweetalert2';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
-
   const [selectedOptions, setSelectedOptions] = useState<Record<string, number>>({});
-
   const { addToCart } = useCart();
-
-  const [invalidCombinations, setInvalidCombinations] = useState<{ option_1_id: number, option_2_id: number }[]>([]);
+  const [invalidCombinations, setInvalidCombinations] =
+    useState<{ option_1_id: number, option_2_id: number }[]>([]);
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/v1/invalid_combinations`)
@@ -31,16 +27,6 @@ const ProductDetail = () => {
       .then(res => setProduct(res.data))
       .catch(console.error);
   }, [id]);
-
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/products/${id}`)
-      .then(res => {
-        console.log('Product loaded:', res.data);
-        setProduct(res.data);
-      })
-      .catch(console.error);
-  }, [id]);
-
 
   if (!product) {
     return (
@@ -58,7 +44,7 @@ const ProductDetail = () => {
   const groupedOptions: { [category: string]: Option[] } = {};
 
   product.options?.forEach((option) => {
-    const category = option.option_category?.name || 'Uncategorized';
+    const category = option.option_category?.name || '-';
 
     if (!groupedOptions[category]) {
       groupedOptions[category] = [];
@@ -84,19 +70,21 @@ const ProductDetail = () => {
           <h5 className="text-muted text-capitalize">{product.category}</h5>
           <p className="fs-5">Price: €{product.price}</p>
           <p>{product.description}</p>
+
           {Object.entries(groupedOptions).map(([category, options]) => (
             <div key={category} className="mb-3">
-              <label className="form-label text-capitalize"> {category} </label>
+              <label className="form-label text-capitalize">{category}</label>
               <select
                 className="form-select"
                 onChange={(e) => {
+                  const value = Number(e.target.value);
                   const copy = { ...selectedOptions };
-                  copy[category] = parseInt(e.target.value);
+                  copy[category] = value;
                   setSelectedOptions(copy);
                 }}
-              >
-                <option value="">Select an option</option>
 
+              >
+                <option value="-1">Select an option</option>
                 {options.map((option) => (
                   <option key={option.id} value={option.id} disabled={option.stock === 0}>
                     {option.name} {option.stock === 0 ? '(Out of stock)' : ''}
@@ -110,10 +98,15 @@ const ProductDetail = () => {
             className="btn btn-success mt-3"
             onClick={() => {
               const totalCategories = Object.keys(groupedOptions).length;
-              const selectedCount = Object.keys(selectedOptions).length;
+              const selectedIds = Object.values(selectedOptions);
 
-              if (selectedCount < totalCategories) {
-                alert('Please select an option for each category.');
+              if (selectedIds.length < totalCategories || selectedIds.includes(-1)) {
+                Swal.fire({
+                  title: 'You need to select options.',
+                  text: 'Please select an option for each category.',
+                  icon: 'error',
+                  confirmButtonText: 'Accept'
+                });
                 return;
               }
 
@@ -127,31 +120,37 @@ const ProductDetail = () => {
               });
 
               const selectedOptionIds = Object.values(selectedOptions);
-
               const isInvalid = invalidCombinations.some(({ option_1_id, option_2_id }) => {
                 return selectedOptionIds.includes(option_1_id) && selectedOptionIds.includes(option_2_id);
               });
 
               if (isInvalid) {
-                alert("This combination of options is not allowed.");
+                Swal.fire({
+                  title: 'This combination of options is not allowed.',
+                  icon: 'error',
+                  confirmButtonText: 'Accept'
+                });
                 return;
               }
 
-
               addToCart({
+                id: Date.now(),
                 productId: product.id,
                 productName: product.name,
                 price: product.price,
                 options: selected
               });
 
-              alert(`${product.name} added to cart`);
+              Swal.fire({
+                title: `${product.name} added to cart`,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+              });
             }}
           >
             Add to Cart
           </button>
-
-
         </div>
       </div>
     </>

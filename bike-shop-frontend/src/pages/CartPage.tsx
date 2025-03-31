@@ -29,7 +29,7 @@ const CartPage = () => {
                     </ul>
                     <button
                         className="btn btn-danger btn-sm mt-2"
-                        onClick={() => removeFromCart(item.productId)}
+                        onClick={() => removeFromCart(item.id)}
                     >
                         Remove
                     </button>
