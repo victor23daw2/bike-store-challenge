@@ -87,6 +87,10 @@ You can test the following invalid combinations (preloaded in `seeds.rb`):
 
 This validation happens on the frontend before adding to the cart. No request is sent if the combination is invalid.
 
+There's an endpoint (`/api/v1/invalid_combinations`) that returns a list of invalid option pairs from the database. When the user selects their bike configuration, the app checks that no invalid pair is selected. If one is detected, it blocks the action and shows a simple message.
+
+This keeps the logic flexible (just update the DB) and avoids hardcoding rules in the frontend or backend.
+
 ---
 
 ### 🔗 Inspiration
@@ -117,3 +121,6 @@ Frontend: http://localhost:3001
 
 Backend API: http://localhost:3000
 
+### 👤 
+
+Victor Manuel Toro Arias
