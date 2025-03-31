@@ -72,16 +72,23 @@ What really stood out to me was how they kept things under control even as the s
 
 ---
 
-### ⚙️ How to Run the App (WIP)
+## 🐳 Running the project with Docker
 
-## Backend
-````
-bundle install
-rails db:create db:migrate db:seed
-rails s
-````
-## Frontend
-````
-npm install
-npm run dev
-````
+This project includes a full Docker setup to run the backend (Rails API), frontend (React with TypeScript), and PostgreSQL database.
+
+### 🚀 Quick Start
+
+1. Make sure you have Docker and Docker Compose installed
+2. Clone this repository and navigate to the project root
+3. Run the following command:
+
+```bash
+docker-compose up --build
+```
+
+4. Access the application:
+
+Frontend: http://localhost:3001
+
+Backend API: http://localhost:3000
+

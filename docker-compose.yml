@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bike_shop
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./bike-shop-backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/bike_shop
+    volumes:
+      - ./bike-shop-backend:/app
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./bike-shop-frontend
+    depends_on:
+      - backend
+    volumes:
+      - ./bike-shop-frontend:/app
+      - /app/node_modules
+    ports:
+      - "3001:3001"
+
+volumes:
+  pgdata:
