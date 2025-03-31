@@ -59,7 +59,7 @@ I also tried to follow **SOLID**.
 - Remove items from the cart.
 - Use the admin panel to:
   - Create new products and options
-  - Associate options with products
+  - Associate options with products.
 - Options out of stock are disabled in the dropdown.
 
 Everything works without login or accounts to keep the flow quick and simple.
@@ -97,13 +97,22 @@ What really stood out to me was how they kept things under control even as the s
 
 ---
 
+### 🧩 External Libraries Used
+
+- **Bootstrap** – For basic UI styling, layout and responsive design.
+- **SweetAlert2** – For nicer alerts and validation feedback on select options and products.
+- **react-loading-skeleton** – For loading placeholders while fetching product data on Product details page.
+
+These libraries helped improve the user experience without adding much complexity to the codebase.
+
+---
 ## 🐳 Running the project with Docker
 
 This project includes a full Docker setup to run the backend (Rails API), frontend (React with TypeScript), and PostgreSQL database.
 
 ### 🚀 Quick Start
 
-1. Make sure you have Docker and Docker Compose installed
+1. Make sure you have Docker and Docker Compose installed.
 2. Clone this repository and navigate to the project root
 3. Run the following command:
 
