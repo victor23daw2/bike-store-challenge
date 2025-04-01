@@ -117,7 +117,8 @@ This project includes a full Docker setup to run the backend (Rails API), fronte
 3. Run the following command:
 
 ```bash
-docker-compose up --build
+docker-compose build
+docker-compose up
 ```
 
 4. Access the application:
